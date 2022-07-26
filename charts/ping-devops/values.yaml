@@ -214,8 +214,9 @@ global:
   # @desc     value of "_defaultServiceAccountName_" will result in a service
   # @desc     account named based on the Helm installation and the specific
   # @desc     workload being deployed. If generateServiceAccount and
-  # @desc     generateGlobalServiceAccount are false, this value can also refer
-  # @desc     to a service account created outside of Helm.
+  # @desc     generateGlobalServiceAccount are false, and existingServiceAccount is
+  # @desc     set to true, this value refers to a service account created outside 
+  # @desc     of Helm.
   # @default  _defaultServiceAccountName_
   #
   # @param    global.rbac.generateRoleAndRoleBinding
@@ -243,6 +244,10 @@ global:
   # @desc     generateRoleAndRoleBinding and/or generateGlobalRoleAndRoleBinding are true.
   # @desc     The rules for the Role can be set here.
   # @default  get, watch, and list verbs for the pods resource
+  #
+  # @param    global.rbac.existingServiceAccount
+  # @desc     Use pre-existing service account created outside of this helm chart
+  # @default  false
   ############################################################
   rbac:
     generateServiceAccount: false
@@ -251,6 +256,7 @@ global:
     applyServiceAccountToWorkload: true
     generateGlobalServiceAccount: false
     generateGlobalRoleAndRoleBinding: false
+    existingServiceAccount: false
     role:
       rules:
       - apiGroups: [""]
@@ -1679,18 +1685,6 @@ pingtoolkit:
   name: pingtoolkit
   image:
     name: pingtoolkit
-
-#############################################################
-# @param    apache-jmeter Apache Jmeter values
-#
-# @param    apache-jmeter.enabled Enable Apache Jmeter deployment
-# @default  false
-#############################################################
-apache-jmeter:
-  enabled: false
-  name: apache-jmeter
-  image:
-    name: apache-jmeter
 
 #############################################################
 # testFramework
